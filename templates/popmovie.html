@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <title>popmovie</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/popmovie.css"> -->
+</head>
+
+<style>
+    .img_box {
+        display: flex ;
+        justify-content: center;
+        padding: 20px
+    }
+    .title_box {
+        text-align: center;
+        font-size: xx-large;
+        font: bolder;
+        
+    }
+    .card-text {
+        text-align: center;
+        font-size: larger;
+        font: bold;
+
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        get_rec_movie()
+        $("#close_popup_btn").click(function () {
+            // $('html, body').css({
+            //     'overflow': 'auto'
+            // });
+            $("#popmovie").fadeOut(200);
+        });
+    });
+    function get_rec_movie() {
+        fetch(`/recommend/{{num}}`).then((res) => res.json()).then((data) => {
+            let rows = data['rec_movie']
+
+            // $('#flippedcard').empty()
+            // rows.forEach((a, index) => {
+            // let i = index + 1
+            let comment = rows['comment']
+            let title = rows['title']
+            let image = rows['image']
+
+            $("#url").attr('src', image)
+            $("#title").text(title)
+            $("#comment").text(comment)
+            console.log(rows)
+            // let temp_html = `<div id="flippedcard${i}" class="row row-cols-1 row-cols-md-5 g-4 card-back">
+            //                     <img class="mov-img" src="${image}">
+            //                     <h5 class="mov-name">${title}</h5>
+            //                     <div class="mov-comment">${comment}</div>
+            //                 </div>`
+            // $('#flippedcard').append(temp_html)
+        })
+    }
+
+</script>
+
+<body>
+    <div class="outline">
+        <div id="temp_box">
+            <div class="img_box">
+                <img id="url" src="https://images.chosun.com/resizer/OXrnN3OlFesXmgmLyS3_FulhAts=/600x600/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/UVBJZL3RXAB36BDSHVM3MW2WNY.jpg">
+            </div>
+            <div class="wrap_box1">
+                <div class="title_box">
+                    <span id="title">.</span>
+                </div>
+            </div>
+            <div class="comment_box">
+                <div class="card">
+                    <div class="card-body">
+                        <p id="comment" class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap_box3">
+                <div class="tag_box">
+                    <p id="tag">.</p>
+                </div>
+    <!-- <div id="flippedcard">
+        <div class="row row-cols-1 row-cols-md-5 g-4 card-back">
+            <img id="mov-img" src="">
+            <h5 id="mov-title">영화 제목</h5>
+            <div id="mov-comment">코멘트</div>
+        </div>
+    </div> -->
+</body>
+
+</html>

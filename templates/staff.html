@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>코드바람 시네마</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .title {
+            background-color: green;
+
+            width: 100%;
+            height: 250px;
+
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("http://res.heraldm.com/content/image/2018/05/20/20180520000224_0.jpg");
+            background-position: center;
+            background-size: cover;
+
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: black;
+            border: 2px solid #ffffff;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 25px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .mycards {
+            background-color: white;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .write {
+            position: absolute;
+            top: 150px;
+            left: 90%;
+            background-color: black;
+            border: 2px solid #ffffff;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 25px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .comment_box {
+            display: none;
+        }
+        .mycomment{
+            display: none;
+        }
+        .card{
+            margin-right: 10px;
+        }
+        .mycomment_son{
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
+        .input_box{
+            width: 300px;
+        }
+        .btn_box > button{
+            margin: 7px 5px 5px 0px;
+        }
+        .comment_btns{
+            width: 200px;
+
+            margin-top: 10px;
+        }
+        .comment_warp{
+            width: 500px;
+
+            margin: auto;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+            listing();
+        });
+        function open_box() {
+            $('#box').show()
+        }
+
+        function close_box() {
+            $('#box').hide()
+        }
+        // ↓ 알바 명단 가져오기  //
+        function listing() {
+            $.ajax({
+                type: 'GET',
+                url: '/movie',
+                data: {},
+                success: function (response) {
+                    let rows = response['moviedb']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+                        let age = rows[i]['age']
+                        let mbti = rows[i]['mbti']
+                        let imgurl = rows[i]['imgurl']
+                        let hobby = rows[i]['hobby']
+                        let recommendmovie = rows[i]['recommendmovie']
+                        let goal = rows[i]['goal']
+                        let tmi = rows[i]['tmi']
+                        let num = rows[i]['num']
+                        let temp_html = `<div class="col">
+                                            <div class="card h-100">
+                                                <img src="${imgurl}"
+                                                    class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="card-name">${name}</h5>
+                                                    <p class="card-age">${age}</p>
+                                                    <p class="card-mbti">${mbti}</p>
+                                                    <p class="card-hobby">${hobby}</p>
+                                                    <p class="card-recommendmovie">${recommendmovie}</p>
+                                                    <p class="card-goal">${goal}</p>
+                                                    <p class="card-tmi">${tmi}</p>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $('#cards-box').append(temp_html)
+                    }
+                }
+            })
+        }
+        // ↓ 댓글 작성  //
+        function savecomment() {
+            let name = $('#name').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                type: 'POST',
+                url: '/savecomment',
+                data: { name_give: name, comment_give: comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            show_all()
+        });
+
+        function show_all() {
+            $('#mycomment_son').empty()
+            $.ajax({
+                type: "GET",
+                url: "/show_comment",
+                data: {},
+                success: function (response) {
+                    let rows = response['show']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+                        let comment = rows[i]['comment']
+                        let temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                    <p>${comment}</p>
+                                                    <footer class="blockquote-footer">${name}</footer>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                        $('#mycomment_son').append(temp_html)
+                    }
+                }
+            })
+        }
+        function open_comment(){
+            $('#mycomment').show()
+        }
+        function close_comment(){
+            $('#mycomment').hide()
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div class="title">
+        <h1>알바 명단👯‍♀️</h1>
+        <button onclick="location.href='/'" class="home">HOME</button>
+        <button class="write"
+            onclick="window.open('/bang', 'window_name', 'width=430, height=500, location=no, status=no, scrollbars=yes');">작성하기</button>
+    </div>
+
+<!--여기에 팀원 5명 소개 넣기-->
+
+
+
+        <div class="mycards">
+        <div class="row row-cols-1 row-cols-md-5 g-5" id="cards-box">
+        </div>
+        </div>
+<div class="comment_warp">
+     <button onclick="open_box('#box')" class="btn btn-secondary" id="show-button">코멘트 작성하기</button>
+    <div class="comment_btns">
+        <button onclick="open_comment()">코멘트 보기</button>
+        <button onclick="close_comment()">코멘트 닫기</button>
+    </div>
+    <div class="comment_box" id="box">
+        <div class="input_box">
+            <div class="input-group mt-3">
+                <input type="text" class="form-control" placeholder="닉네임"
+                       id="name">
+            </div>
+            <div class="input-group mt-3">
+                <input type="text" class="form-control" placeholder="코멘트"
+                       id="comment">
+            </div>
+        </div>
+        <div class="btn_box">
+            <button onclick="savecomment()" class="btn btn-primary" id="save-button">코멘트 남기기</button>
+            <button onclick="close_box('#box')" class="btn btn-secondary" id="show-button">닫기</button>
+        </div>
+
+        <div class="mt-3" id="comments-section">
+        </div>
+    </div>
+    </div>
+
+    <div id="mycomment" class="mycomment">
+        <div id="mycomment_son" class="mycomment_son">
+        </div>
+    </div>
+
+</body>
+
+</html>
