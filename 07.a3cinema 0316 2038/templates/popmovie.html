@@ -18,15 +18,57 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../static/css/popmovie.css">
-    <script type="text/javascript" src="../static/js/popmovie.js"></script>
-</head>
+    <!-- <script type="text/javascript" src="../static/js/popmovie.js"></script> -->
 
+</head>
+<script>
+    $(document).ready(function () {
+        get_rec_movie()
+        $("#close_popup_btn").click(function () {
+            // $('html, body').css({
+            //     'overflow': 'auto'
+            // });
+            $("#popmovie").fadeOut(200);
+        });
+    });
+    function get_rec_movie() {
+        fetch(`/recommend/{{num}}`).then((res) => res.json()).then((data) => {
+            let rows = data['rec_movie']
+
+            // $('#flippedcard').empty()
+            // rows.forEach((a, index) => {
+            // let i = index + 1
+            let comment = rows['comment']
+            let title = rows['title']
+            let image = rows['image']
+            let star = rows['star']
+
+            let star_repeat = '⭐'.repeat(star)
+
+            $("#url").attr('src', image)
+            $("#title").text(title)
+            $("#comment").text(comment)
+            $("#star").text(star_repeat)
+            // console.log(rows)
+            // let temp_html = `<div id="flippedcard${i}" class="row row-cols-1 row-cols-md-5 g-4 card-back">
+            //                     <img class="mov-img" src="${image}">
+            //                     <h5 class="mov-name">${title}</h5>
+            //                     <div class="mov-comment">${comment}</div>
+            //                 </div>`
+            // $('#flippedcard').append(temp_html)
+            $('temp_box').empty()
+        })
+    }
+
+
+</script>
 
 <body>
     <div class="outline">
         <div id="temp_box">
             <div class="img_box">
-                <img id="url" src="https://images.chosun.com/resizer/OXrnN3OlFesXmgmLyS3_FulhAts=/600x600/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/UVBJZL3RXAB36BDSHVM3MW2WNY.jpg">
+                <img id="url"
+                    src="">
             </div>
             <div class="wrap_box1">
                 <div class="title_box">
@@ -47,7 +89,7 @@
                 <div class="tag_box">
                     <p id="tag">.</p>
                 </div>
-    <!-- <div id="flippedcard">
+                <!-- <div id="flippedcard">
         <div class="row row-cols-1 row-cols-md-5 g-4 card-back">
             <img id="mov-img" src="">
             <h5 id="mov-title">영화 제목</h5>

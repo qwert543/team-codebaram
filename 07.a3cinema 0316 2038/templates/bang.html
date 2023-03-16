@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../static/css/bang.css">
+</head>
+
+<script>
+  function tableWrite() {
+    var userName = document.querySelector("#username").value;
+    var userContent = document.querySelector("#content").value;
+    var tbody = document.querySelector("tbody");
+    var userDate = new Date();
+    var year = userDate.getFullYear();
+    var month = userDate.getMonth() + 1;
+    var date = userDate.getDate();
+    var hours = String(userDate.getHours()).padStart(2, "0");
+    var minutes = String(userDate.getMinutes()).padStart(2, "0");
+    var newtr = document.createElement("tr");
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    var td3 = document.createElement("td");
+    var td4 = document.createElement("td");
+    td1.innerText = tbody.rows.length + 1;
+    td2.innerText = userName;
+    td3.innerText = userContent;
+    td4.innerText = `${year}-${month}-${date} ${hours}:${minutes}`;
+    newtr.append(td1);
+    newtr.append(td2);
+    newtr.append(td3);
+    newtr.append(td4);
+    tbody.appendChild(newtr);
+  }
+
+  $(document).ready(function () {
+    show_popup_comment()
+  });
+  function show_popup_comment() {
+    $.ajax({
+      type: "GET",
+      url: "/show_popup_comment",
+      data: {},
+      success: function (response) {
+        let rows = response['show_popup']
+        for (let i = 0; i < rows.length; i++) {
+          let name = rows[i]['name']
+          let comment = rows[i]['comment']
+          let temp_html = `<tr>
+                          <td >${name}</td>
+                          <td >${comment}</td>
+                        </tr>`
+          $('#show_box').append(temp_html)
+        }
+      }
+    })
+  }
+  function popup_save() {
+    let name = $('#name').val()
+    let comment = $('#comment').val()
+    $.ajax({
+      type: "POST",
+      url: "/popup_comment",
+      data: { name_give: name, comment_give: comment },
+      success: function (response) {
+        alert(response['msg'])
+        window.location.reload()
+      }
+    })
+  }
+
+</script>
+
+<body>
+  <p>방명록</p>
+  <div>
+    <p>닉네임: <input id="name" type="text"></p>
+  </div>
+
+  <div>
+    <p>코멘트: <input id="comment" type="text"></p>
+  </div>
+
+  <br />
+  <button type="button" onclick="popup_save()" style="margin-bottom: 20px">
+    작성
+  </button>
+
+  <table border="1" cellspacing="1" cellpadding="20">
+    <thead id="show_box">
+      <tr>
+        <td>작성자</td>
+        <td>내용</td>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</body>
+
+</html>

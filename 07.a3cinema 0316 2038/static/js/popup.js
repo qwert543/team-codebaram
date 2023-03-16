@@ -22,6 +22,8 @@ function posting() {
 
     fetch('/movie', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
         alert(data["msg"])
-        window.location.reload()
+        $("#popup").fadeOut(200);
+        window.location.reload();
+        
     })
 }
