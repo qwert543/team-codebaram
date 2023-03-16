@@ -24,7 +24,7 @@
     .img_box {
         display: flex ;
         justify-content: center;
-        padding: 20px
+        padding: 30px
     }
     .title_box {
         text-align: center;
@@ -38,6 +38,12 @@
         font: bold;
 
     }
+
+    .star_box{
+        display: flex ;
+        justify-content: center;
+    }
+
 </style>
 
 <script>
@@ -60,17 +66,22 @@
             let comment = rows['comment']
             let title = rows['title']
             let image = rows['image']
+            let star = rows['star']
+
+            let star_repeat = '⭐'.repeat(star)
 
             $("#url").attr('src', image)
             $("#title").text(title)
             $("#comment").text(comment)
-            console.log(rows)
+            $("#star").text(star_repeat)
+            // console.log(rows)
             // let temp_html = `<div id="flippedcard${i}" class="row row-cols-1 row-cols-md-5 g-4 card-back">
             //                     <img class="mov-img" src="${image}">
             //                     <h5 class="mov-name">${title}</h5>
             //                     <div class="mov-comment">${comment}</div>
             //                 </div>`
             // $('#flippedcard').append(temp_html)
+            $('temp_box').empty()
         })
     }
 
@@ -85,6 +96,9 @@
             <div class="wrap_box1">
                 <div class="title_box">
                     <span id="title">.</span>
+                </div>
+                <div class="star_box">
+                    <span id="star">.</span>
                 </div>
             </div>
             <div class="comment_box">

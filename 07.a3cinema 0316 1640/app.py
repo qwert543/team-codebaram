@@ -72,14 +72,12 @@ def movie_get():
 def savecomment():
    name_receive = request.form['name_give']
    comment_receive = request.form['comment_give']
-   num_receive = request.form['num_give']
    doc = {
-       'namename' : name_receive,
+       'name' : name_receive,
        'comment' : comment_receive,
-       'num': num_receive
    }
    db.comment.insert_one(doc)
-   return jsonify({'msg': '등록완료'})
+   return jsonify({'msg': '등록완료!'})
 
 
 
@@ -102,18 +100,16 @@ def popup_comment():
    db.popup_comment.insert_one(doc)
    return jsonify({'msg': '등록 완료'})
 
-# 팝업창 코멘트 get
+# 팝업창 댓글 get
 @app.route('/show_popup_comment', methods=['GET'])
 def show_popup_comment():
    show_popup_comment = list(db.popup_comment.find({},{'_id':False}))
    return jsonify({'show_popup': show_popup_comment})
 
-# 팝업창에 모든 댓글 다 get
+# 팀 코멘트
 @app.route('/show_all', methods=['GET'])
 def show_all():
-   show_all = list(db.comment1.find({},{'_id':False})), list(db.comment2.find({},{'_id':False})), \
-               list(db.comment3.find({}, {'_id': False})), list(db.comment4.find({}, {'_id': False})), \
-               list(db.comment5.find({}, {'_id': False})), list(db.popup_comment.find({},{'_id':False}))
+   show_all = list(db.comment.find({},{'_id':False}))
    return jsonify({'all_show': show_all})
 
 # 영화 추천 크롤링 해오기 post
@@ -121,6 +117,7 @@ def show_all():
 def post_rec_movie():
     url_receive = request.form['url_give']
     comment_receive = request.form['comment_give']
+    star_receive = request.form['star_give']
 
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get(url_receive, headers=headers)
@@ -129,13 +126,13 @@ def post_rec_movie():
 
     ogimage = soup.select_one('meta[property="og:image"]')['content']
     ogtitle = soup.select_one('meta[property="og:title"]')['content']
-    # ogstar = soup.select_one('actualPointPersentBasic > div > span > span')
+    
     
     doc = {
-        # 'star':ogstar,
         'title':ogtitle,
         'image':ogimage,
         # 'url':url_receive,
+        'star':star_receive,
         'comment':comment_receive
     }
 

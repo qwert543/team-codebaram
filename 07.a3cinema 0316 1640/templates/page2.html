@@ -19,7 +19,6 @@
         * {
             font-family: 'Gowun Dodum', sans-serif;
         }
-
         .title {
             background-color: green;
 
@@ -147,18 +146,18 @@
             bottom: 0;
             display: none;
             padding: 50px 0 0 0;
-            z-index: 999;
+            z-index: 1599;
         }
 
         .popmovie {
             position: relative;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             border-radius: 10px;
             overflow: scroll;
             /* background-color: red; */
             box-shadow: 5px 10px 10px 1px rgba(0, 0, 0, .3);
-            margin: 0 auto;
+            margin: 10px auto;
             height: auto;
         }
 
@@ -174,8 +173,8 @@
         .iframe {
             max-width: 600px;
             width: 100%;
-            height: 90vh;
-            background-color: yellow;
+            height: 80vh;
+            background-color: rgba(0, 0, 0, .3)
         }
 
         .close_popup_btn {
@@ -208,6 +207,10 @@
         .close_popup_btn:after {
             transform: translate(-50%, -50%) rotate(-45deg);
         }
+
+        .rec_popup_body {
+            background-color: rgba(255, 255, 255, 0.8)
+        }
     </style>
     <script>
         $(document).ready(function () {
@@ -225,19 +228,21 @@
                 $('#popmovie').fadeOut(200);
             });
         });
-         // ↓ 팝업창 닫기 //
+        // ↓ 팝업창 닫기 //
         function close_popup() {
             $("#popmovie").fadeOut(200);
         }
 
-         // ↓ 추천영화 url과 코멘트 폼에 실어서 app.py로 보내줌 //
+        // ↓ 추천영화 url과 코멘트 폼에 실어서 app.py로 보내줌 //
         function rec_movie_post() {
             let url = $('#recipient-name').val()
             let comment = $('#message-text').val()
-
+            let star = $('#star').val()
             let formData = new FormData();
+
             formData.append("url_give", url);
             formData.append("comment_give", comment);
+            formData.append("star_give", star)
 
             fetch('/recommend', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
                 alert(data['msg'])
@@ -251,11 +256,7 @@
                 $('#screens').empty()
                 rows.forEach((a, index) => {
                     let i = index + 1
-                    let comment = a['comment']
-                    let title = a['title']
-                    let image = a['image']
-
-                    let temp_html = `<div id="screen${i}" class="card-front col">
+                    let temp_html = `<div id="screen${index}" class="card-front col">
                                         <div >
                                             <div class="box">${i}관</div>
                                             <div class="watch_movie">
@@ -275,7 +276,8 @@
     <div class="title">
         <h1>코드바람 시네마</h1>
         <button onclick="location.href='/'" class="home">HOME</button>
-        <button class="rec_movie_btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">영화 추천하기</button>
+        <button class="rec_movie_btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">영화
+            추천하기</button>
     </div>
     <!-- 상영관(1관, 2관 ...N관) -->
     <div class="wrap">
@@ -285,7 +287,7 @@
     <!--영화 추천 등록창!-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content rec_popup_body">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">영화를 추천해주세요!</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -296,6 +298,18 @@
                             <label for="recipient-name" class="col-form-label">URL을 입력해주세요</label>
                             <input type="text" class="form-control" id="recipient-name"
                                 placeholder="네이버 영화 페이지의 URL을 넣어주세요">
+                        </div>
+                        <div class="col-md">별점
+                            <div class="form-floating mb-2 stargrid">
+                                <select id="star" class="form-select" aria-label="별점 선택">
+                                    <option value="" selected>-- 선택하기 --</option>
+                                    <option value="1">⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">코멘트</label>

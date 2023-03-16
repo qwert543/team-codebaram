@@ -81,17 +81,50 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+
+        .comment_box {
+            display: none;
+        }
+        .mycomment{
+            display: none;
+        }
+        .card{
+            margin-right: 10px;
+        }
+        .mycomment_son{
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
+        .input_box{
+            width: 300px;
+        }
+        .btn_box > button{
+            margin: 7px 5px 5px 0px;
+        }
+        .comment_btns{
+            width: 200px;
+
+            margin-top: 10px;
+        }
+        .comment_warp{
+            width: 500px;
+
+            margin: auto;
+        }
     </style>
     <script>
+
         $(document).ready(function () {
             listing();
         });
-        function open_box(box_id) {
-            $(box_id).show()
+        function open_box() {
+            $('#box').show()
         }
 
-        function close_box(box_id) {
-            $(box_id).hide()
+        function close_box() {
+            $('#box').hide()
         }
         // ↓ 알바 명단 가져오기  //
         function listing() {
@@ -124,24 +157,6 @@
                                                     <p class="card-goal">${goal}</p>
                                                     <p class="card-tmi">${tmi}</p>
                                                 </div>
-                                                <button onclick="open_box('#box_${num}')" class="btn btn-secondary" id="show-button">Show comments</button>
-                                                <div id="box_${num}">
-                                                    <div class="input-group mt-3">
-                                                        <input type="text" class="form-control" placeholder="Enter your nickname" id="name">
-                                                    </div>
-                                                    <div class="input-group mt-3">
-                                                        <input type="text" class="form-control" placeholder="Enter your comment" id="comment">
-                                                    </div>
-                                                    <div class="input-group mt-3">
-                                                        <button onclick="savecomment(${num})"
-
-                                                        class="btn btn-primary" id="save-button">Save</button>
-                                                        <button onclick="close_box('#box_${num}')" class="btn btn-secondary" id="show-button">close</button>
-                                                    </div>
-                                                    <div class="mt-3" id="comments-section">
-                                                        <!-- 닉네임과 댓글이 여기에 보여짐 -->
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>`
                         $('#cards-box').append(temp_html)
@@ -150,19 +165,56 @@
             })
         }
         // ↓ 댓글 작성  //
-        function savecomment(num) {
+        function savecomment() {
             let name = $('#name').val()
             let comment = $('#comment').val()
             $.ajax({
                 type: 'POST',
                 url: '/savecomment',
-                data: { name_give: name, comment_give: comment, num_give: num },
+                data: { name_give: name, comment_give: comment},
                 success: function (response) {
                     alert(response['msg'])
                     window.location.reload()
                 }
             });
         }
+
+        $(document).ready(function () {
+            show_all()
+        });
+
+        function show_all() {
+            $('#mycomment_son').empty()
+            $.ajax({
+                type: "GET",
+                url: "/show_comment",
+                data: {},
+                success: function (response) {
+                    let rows = response['show']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+                        let comment = rows[i]['comment']
+                        let temp_html = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                    <p>${comment}</p>
+                                                    <footer class="blockquote-footer">${name}</footer>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                        $('#mycomment_son').append(temp_html)
+                    }
+                }
+            })
+        }
+        function open_comment(){
+            $('#mycomment').show()
+        }
+        function close_comment(){
+            $('#mycomment').hide()
+        }
+
+
     </script>
 </head>
 
@@ -174,11 +226,44 @@
             onclick="window.open('/bang', 'window_name', 'width=430, height=500, location=no, status=no, scrollbars=yes');">작성하기</button>
     </div>
 
+<!--여기에 팀원 5명 소개 넣기-->
 
-    <div class="mycards">
+
+
+        <div class="mycards">
         <div class="row row-cols-1 row-cols-md-5 g-5" id="cards-box">
         </div>
+        </div>
+<div class="comment_warp">
+     <button onclick="open_box('#box')" class="btn btn-secondary" id="show-button">코멘트 작성하기</button>
+    <div class="comment_btns">
+        <button onclick="open_comment()">코멘트 보기</button>
+        <button onclick="close_comment()">코멘트 닫기</button>
+    </div>
+    <div class="comment_box" id="box">
+        <div class="input_box">
+            <div class="input-group mt-3">
+                <input type="text" class="form-control" placeholder="닉네임"
+                       id="name">
+            </div>
+            <div class="input-group mt-3">
+                <input type="text" class="form-control" placeholder="코멘트"
+                       id="comment">
+            </div>
+        </div>
+        <div class="btn_box">
+            <button onclick="savecomment()" class="btn btn-primary" id="save-button">코멘트 남기기</button>
+            <button onclick="close_box('#box')" class="btn btn-secondary" id="show-button">닫기</button>
+        </div>
 
+        <div class="mt-3" id="comments-section">
+        </div>
+    </div>
+    </div>
+
+    <div id="mycomment" class="mycomment">
+        <div id="mycomment_son" class="mycomment_son">
+        </div>
     </div>
 
 </body>

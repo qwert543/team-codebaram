@@ -31,15 +31,15 @@
         }
 
       $(document).ready(function () {
-        show_all()
+        show_popup_comment()
       });
-      function show_all() {
+      function show_popup_comment() {
         $.ajax({
           type: "GET",
-          url: "/show_all",
+          url: "/show_popup_comment",
           data: {},
           success: function (response) {
-            let rows = response['all_show'][0,1,2,3,4,5]
+            let rows = response['show_popup']
             for (let i = 0; i < rows.length; i++){
               let name = rows[i]['name']
               let comment = rows[i]['comment']
