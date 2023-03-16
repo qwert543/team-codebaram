@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <title>지원 이력서</title>
+
+
+    <style>
+        body {
+            background-color: white;
+            background-color: rgba(255, 255, 255, 0.85);
+            width: auto;
+            height: auto;
+            padding-top: 10px;
+        }
+        .mypost {
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 0px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 4px 0px gray;
+            border-radius: 10px;
+        }
+
+        .postbtn {
+            display: flex;
+            justify-content: right;
+        }
+
+    </style>
+    <script>
+        // ↓ 알바 지원, 폼데이터로 app.py로 보냄 //
+        function posting() {
+            let imgurl = $('#imgurl').val()
+            let name = $('#name').val()
+            let age = $('#age').val()
+            let mbti = $('#mbti').val()
+            let hobby = $('#hobby').val()
+            let recommendmovie = $('#recommendmovie').val()
+            let goal = $('#goal').val()
+            let tmi = $('#tmi').val()
+
+            let formData = new FormData();
+            formData.append("imgurl_give", imgurl);
+            formData.append("name_give", name);
+            formData.append("age_give", age);
+            formData.append("mbti_give", mbti);
+            formData.append("hobby_give", hobby);
+            formData.append("recommendmovie_give", recommendmovie);
+            formData.append("goal_give", goal);
+            formData.append("tmi_give", tmi);
+
+            fetch('/movie', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                alert(data["msg"])
+                window.location.reload()
+            })
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1 style="text-align:center">알바 지원하기</h1>
+    </div>
+    <div class="mypost" id="post-box">
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="imgurl" placeholder="사진 URL">
+            <label>사진 URL</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="name" placeholder="이름">
+            <label>이름</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="age" placeholder="나이">
+            <label>나이</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="mbti" placeholder="MBTI">
+            <label>MBTI</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="hobby" placeholder="취미">
+            <label>취미</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="recommendmovie" placeholder="추천 영화">
+            <label>추천 영화</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <input class="form-control" id="goal" placeholder="목표">
+            <label>목표</label>
+        </div>
+        <div class="form-floating mb-3 ">
+            <textarea class="form-control" placeholder="tmi" id="tmi"></textarea>
+            <label>TMI</label>
+        </div>
+        <div class="postbtn">
+            <button onclick="posting()" type="button" class="btn btn-dark">지원하기</button>
+        </div>
+    </div>
+
+</body>

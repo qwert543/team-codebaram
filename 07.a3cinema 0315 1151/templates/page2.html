@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>코드바람 시네마</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .title {
+            background-color: green;
+
+            width: 100%;
+            height: 250px;
+
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("http://res.heraldm.com/content/image/2018/05/20/20180520000224_0.jpg");
+            background-position: center;
+            background-size: cover;
+
+            color: black;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .watch_movie {
+            background-color: none;
+            width: 100px;
+            height: 100px;
+
+            margin: auto;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mybtn {
+            color: white;
+            background-color: black;
+            opacity: 0.8;
+
+            border-radius: px;
+            border: 1px solid white;
+        }
+
+        .mybtn:hover {
+            border: 2px solid white;
+        }
+
+        .movie {
+            background-image: url("http://t1.daumcdn.net/cfile/124104254B06219142");
+            background-position: center;
+            background-size: cover;
+
+            padding: 20px;
+
+            box-shadow: 0px 0px 3px 0px gray;
+
+            display: none;
+        }
+
+        .movie-index {
+            background-color: white;
+
+            width: 100%;
+            height: 400px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wrap {
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("http://imagescdn.gettyimagesbank.com/500/18/367/633/0/1024534916.jpg");
+            background-position: center;
+            background-size: contain;
+
+            padding: 25px;
+
+            /*margin: 10px 10px 10px 10px;*/
+        }
+
+        .box {
+            height: 500px;
+            background-color: black;
+            color: yellow;
+            padding: 20px;
+            font-size: 80px;
+            text-align: center;
+            border-radius: 20px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: black;
+            border: 2px solid #ffffff;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 25px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .rec_movie_btn {
+            background-color: black;
+            color: yellow;
+            border-radius: 5px;
+
+        }
+
+        .popmovie-wrap {
+            background-color: rgba(0, 0, 0, .3);
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            padding: 50px 0 0 0;
+            z-index: 999;
+        }
+
+        .popmovie {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            overflow: scroll;
+            /* background-color: red; */
+            box-shadow: 5px 10px 10px 1px rgba(0, 0, 0, .3);
+            margin: 0 auto;
+            height: auto;
+        }
+
+        .popmovie-body {
+            position: relative;
+            /* background-color: green; */
+        }
+
+        .popmovie::-webkit-scrollbar {
+            display: none;
+        }
+
+        .iframe {
+            max-width: 600px;
+            width: 100%;
+            height: 90vh;
+            background-color: yellow;
+        }
+
+        .close_popup_btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(200, 200, 200, 0.7);
+            border: none;
+        }
+
+        .close_popup_btn:before,
+        .close_popup_btn:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 2px;
+            background-color: black;
+        }
+
+        .close_popup_btn:before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .close_popup_btn:after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            rec_movie_list();
+            // ↓ 팝업창 열기, i값 어떻게든 가져와서 /popmovie/i //
+            $('#screens').on('click', '.card-front', function () {
+                let i = $(this).attr('id').replace('screen', '');
+                // alert(i)
+                $('#popmovie_iframe').attr('src', '/popmovie/' + i);
+                $('#popmovie').fadeIn(200);
+                $('.popmovie').scrollTop(0);
+            })
+
+            $(".close_popup_btn").click(function () {
+                $('#popmovie').fadeOut(200);
+            });
+        });
+         // ↓ 팝업창 닫기 //
+        function close_popup() {
+            $("#popmovie").fadeOut(200);
+        }
+
+         // ↓ 추천영화 url과 코멘트 폼에 실어서 app.py로 보내줌 //
+        function rec_movie_post() {
+            let url = $('#recipient-name').val()
+            let comment = $('#message-text').val()
+
+            let formData = new FormData();
+            formData.append("url_give", url);
+            formData.append("comment_give", comment);
+
+            fetch('/recommend', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                alert(data['msg'])
+                window.location.reload()
+            })
+        }
+        // ↓ 상영관 이름 붙여주는 함수, 이름 붙이면서 i값 받아옴 //
+        function rec_movie_list() {
+            fetch('/recommend').then((res) => res.json()).then((data) => {
+                let rows = data['rec_movie']
+                $('#screens').empty()
+                rows.forEach((a, index) => {
+                    let i = index + 1
+                    let comment = a['comment']
+                    let title = a['title']
+                    let image = a['image']
+
+                    let temp_html = `<div id="screen${i}" class="card-front col">
+                                        <div >
+                                            <div class="box">${i}관</div>
+                                            <div class="watch_movie">
+                                            </div>
+                                        </div>
+                                    </div>`
+                    $('#screens').append(temp_html)
+                })
+            })
+        }
+
+    </script>
+</head>
+
+<body>
+    <!-- 메인화면 -->
+    <div class="title">
+        <h1>코드바람 시네마</h1>
+        <button onclick="location.href='/'" class="home">HOME</button>
+        <button class="rec_movie_btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">영화 추천하기</button>
+    </div>
+    <!-- 상영관(1관, 2관 ...N관) -->
+    <div class="wrap">
+        <div id="screens" class="row row-cols-1 row-cols-md-5 g-4 card-front">
+        </div>
+    </div>
+    <!--영화 추천 등록창!-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">영화를 추천해주세요!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">URL을 입력해주세요</label>
+                            <input type="text" class="form-control" id="recipient-name"
+                                placeholder="네이버 영화 페이지의 URL을 넣어주세요">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">코멘트</label>
+                            <textarea class="form-control" id="message-text" placeholder="추천 이유를 넣어주세요"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button onclick="rec_movie_post()" type="button" class="btn btn-primary">추천하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--여기는 상영관 클릭시 나오는 추천 영화 리스트 팝업-->
+    <div class="popmovie-wrap" id="popmovie">
+        <div class="popmovie">
+            <div class="popmovie-body">
+                <button class="close_popup_btn"></button>
+                <iframe src="#" id="popmovie_iframe" class="iframe"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
