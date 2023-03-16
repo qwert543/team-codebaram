@@ -113,6 +113,14 @@
 
             margin: auto;
         }
+        .badge {
+            background-color: sandybrown;
+
+            padding: 3px 3px 3px 3px;
+
+            text-align: center;
+            font-size: 10px;
+        }
     </style>
     <script>
 
@@ -149,7 +157,7 @@
                                                 <img src="${imgurl}"
                                                     class="card-img-top">
                                                 <div class="card-body">
-                                                    <h5 class="card-name">${name}</h5>
+                                                    <h5 class="card-name">${name}<p class="badge">알바</p></h5>
                                                     <p class="card-age">${age}</p>
                                                     <p class="card-mbti">${mbti}</p>
                                                     <p class="card-hobby">${hobby}</p>
@@ -223,18 +231,90 @@
         <h1>알바 명단👯‍♀️</h1>
         <button onclick="location.href='/'" class="home">HOME</button>
         <button class="write"
-            onclick="window.open('/bang', 'window_name', 'width=430, height=500, location=no, status=no, scrollbars=yes');">작성하기</button>
+            onclick="window.open('/bang', 'window_name', 'width=430, height=500, location=no, status=no, scrollbars=yes');">방명록</button>
     </div>
 
-<!--여기에 팀원 5명 소개 넣기-->
-
-
-
-        <div class="mycards">
-        <div class="row row-cols-1 row-cols-md-5 g-5" id="cards-box">
+    <div class="mycards">
+    <div class="row row-cols-1 row-cols-md-5 g-5">
+        <div class="col">
+        <div class="card h-100">
+            <img src="https://r2.jjalbot.com/2023/03/0DNrb_sSPV.jpeg"
+                 class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-name">정재준<p class="badge">매니저</p></h5>
+                <p class="card-age">29</p>
+                <p class="card-mbti">ISFJ</p>
+                <p class="card-hobby">게임, 운동, 영화, 무한도전 보기</p>
+                <p class="card-recommendmovie">양들의 침묵</p>
+                <p class="card-goal">경제적 독립</p>
+                <p class="card-tmi">플스 게임 좋아함.</p>
+            </div>
         </div>
+    </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://yt3.googleusercontent.com/C7bTHnoo1S_MRbJXn4VwncNpB87C2aioJC_sKvgM-CGw_xgdxwiz0EFEqzj0SRVz6An2h81T4Q=s900-c-k-c0x00ffffff-no-rj"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-name">김광운<p class="badge">매니저</p></h5>
+                    <p class="card-age">25</p>
+                    <p class="card-mbti">INTJ</p>
+                    <p class="card-hobby">게임하기, 탁구, 영화보기</p>
+                    <p class="card-recommendmovie">인셉션, 위플래쉬</p>
+                    <p class="card-goal">인생을 날로먹기</p>
+                    <p class="card-tmi">침투부 많관부, 기타 배우기 1일차</p>
+                </div>
+            </div>
         </div>
-<div class="comment_warp">
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://media.istockphoto.com/id/1321078344/ko/%EB%B2%A1%ED%84%B0/%EB%82%A8%EC%84%B1-%EC%B9%98%EA%B3%BC-%EC%9D%98%EC%82%AC%EC%9D%98-%EA%B7%B8%EB%A6%BC-%EB%82%A8%EC%9E%90%EB%8A%94-%EA%B0%90%EC%97%BC%EC%9D%84-%EB%B0%A9%EC%A7%80%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%B4-%EC%96%BC%EA%B5%B4-%EB%B0%A9%ED%8C%A8%EB%A5%BC-%EC%B0%A9%EC%9A%A9.jpg?s=612x612&w=0&k=20&c=698MT7FwhRyT081IcjchvSpyU5IfaoQUWFYPF-1QmnE="
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-name">이현식<p class="badge">매니저</p></h5>
+                    <p class="card-age">31</p>
+                    <p class="card-mbti">ISFP</p>
+                    <p class="card-hobby">영화 보기, 게임 하기, 드라마 보기</p>
+                    <p class="card-recommendmovie">바람</p>
+                    <p class="card-goal">하고싶은대로 하고 살자</p>
+                    <p class="card-tmi">전직 치과위생사</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="http://image.dongascience.com/Photo/2018/01/15160802935648[1].jpg"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-name">박진식<p class="badge">매니저</p></h5>
+                    <p class="card-age">26</p>
+                    <p class="card-mbti">ISTP</p>
+                    <p class="card-hobby">술, 산책</p>
+                    <p class="card-recommendmovie">어벤져스 엔드게임</p>
+                    <p class="card-goal">개발자로 취업하기</p>
+                    <p class="card-tmi">맥주 마시면서 야식 자주 먹음</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="https://image.newsis.com/2022/10/13/NISI20221013_0019350957_web.jpg"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-name">이찬주<p class="badge">매니저</p></h5>
+                    <p class="card-age">26</p>
+                    <p class="card-mbti">ISTP</p>
+                    <p class="card-hobby">넷플릭스, 드라마, 영화보기</p>
+                    <p class="card-recommendmovie">소울메이트</p>
+                    <p class="card-goal">올해는 개발자로 취업하자~</p>
+                    <p class="card-tmi">영국축구 토트넘 팬입니다 같이 응원해요!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="comment_warp">
      <button onclick="open_box('#box')" class="btn btn-secondary" id="show-button">코멘트 작성하기</button>
     <div class="comment_btns">
         <button onclick="open_comment()">코멘트 보기</button>
@@ -265,6 +345,11 @@
         <div id="mycomment_son" class="mycomment_son">
         </div>
     </div>
+
+    <div class="mycards">
+        <div class="row row-cols-1 row-cols-md-5 g-5" id="cards-box">
+        </div>
+        </div>
 
 </body>
 
