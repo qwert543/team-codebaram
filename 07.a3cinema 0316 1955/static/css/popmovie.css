@@ -1,0 +1,22 @@
+.img_box {
+    display: flex ;
+    justify-content: center;
+    padding: 30px
+}
+.title_box {
+    text-align: center;
+    font-size: xx-large;
+    font: bolder;
+    
+}
+.card-text {
+    text-align: center;
+    font-size: larger;
+    font: bold;
+
+}
+
+.star_box {
+    display: flex ;
+    justify-content: center;
+}

@@ -1,0 +1,20 @@
+body {
+    background-color: white;
+    background-color: rgba(255, 255, 255, 0.85);
+    width: auto;
+    height: auto;
+    padding-top: 10px;
+}
+.mypost {
+    width: 95%;
+    max-width: 500px;
+    margin: 20px auto 0px auto;
+    padding: 20px;
+    box-shadow: 0px 0px 4px 0px gray;
+    border-radius: 10px;
+}
+
+.postbtn {
+    display: flex;
+    justify-content: right;
+}
